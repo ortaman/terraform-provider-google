@@ -44,7 +44,6 @@ resource "google_folder_organization_policy" "services_policy" {
 }
 ```
 
-
 Or to deny some services, use the following instead:
 
 ```hcl
@@ -89,8 +88,7 @@ The following arguments are supported:
 
 * `boolean_policy` - (Optional) A boolean policy is a constraint that is either enforced or not. Structure is documented below. 
 
-* `list_policy` - (Optional) A policy that can define specific values that are allowed or denied for the given constraint. It 
-can also be used to allow or deny all values. Structure is documented below.
+* `list_policy` - (Optional) A policy that can define specific values that are allowed or denied for the given constraint. It can also be used to allow or deny all values. Structure is documented below.
 
 * `restore_policy` - (Optional) A restore policy is a constraint to restore the default policy. Structure is documented below. 
 
@@ -114,7 +112,7 @@ The `allow` or `deny` blocks support:
 
 The `restore_policy` block supports:
 
-* `default` - (Required) If true, then the default Policy is restored. If false, then any configuration is acceptable.
+* `default` - (Required) Only can use true, then the default Policy is restored.
 
 ## Attributes Reference
 

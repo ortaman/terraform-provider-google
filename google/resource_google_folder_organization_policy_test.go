@@ -283,7 +283,7 @@ resource "google_folder" "orgpolicy" {
 }
 
 resource "google_folder_organization_policy" "bool" {
-    # Test numeric folder ID.
+        # Test numeric folder ID.
   folder     = "${replace(google_folder.orgpolicy.name, "folders/", "")}"
   constraint = "constraints/compute.disableSerialPortAccess"
 

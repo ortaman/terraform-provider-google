@@ -92,7 +92,7 @@ func setProjectOrganizationPolicy(d *schema.ResourceData, meta interface{}) erro
 		return err
 	}
 
-	restore_default, err := expandRestoreOrganizationPolicy(d.Get("restore_policy").([]interface{}))
+	restoreDefault, err := expandRestoreOrganizationPolicy(d.Get("restore_policy").([]interface{}))
 	if err != nil {
 		return err
 	}
@@ -102,7 +102,7 @@ func setProjectOrganizationPolicy(d *schema.ResourceData, meta interface{}) erro
 			Constraint:     canonicalOrgPolicyConstraint(d.Get("constraint").(string)),
 			BooleanPolicy:  expandBooleanOrganizationPolicy(d.Get("boolean_policy").([]interface{})),
 			ListPolicy:     listPolicy,
-			RestoreDefault: restore_default,
+			RestoreDefault: restoreDefault,
 			Version:        int64(d.Get("version").(int)),
 			Etag:           d.Get("etag").(string),
 		},

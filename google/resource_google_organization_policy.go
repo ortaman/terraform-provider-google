@@ -107,8 +107,9 @@ var schemaOrganizationPolicy = map[string]*schema.Schema{
 		Elem: &schema.Resource{
 			Schema: map[string]*schema.Schema{
 				"default": {
-					Type:     schema.TypeBool,
-					Required: true,
+					Type:         schema.TypeBool,
+					Required:     true,
+					ValidateFunc: validateDefaultPolicyValue,
 				},
 			},
 		},
@@ -248,10 +249,10 @@ func flattenBooleanOrganizationPolicy(policy *cloudresourcemanager.BooleanPolicy
 	return bPolicies
 }
 
-func flattenRestoreOrganizationPolicy(restore_policy *cloudresourcemanager.RestoreDefault) []map[string]interface{} {
+func flattenRestoreOrganizationPolicy(restorePolicy *cloudresourcemanager.RestoreDefault) []map[string]interface{} {
 	rp := make([]map[string]interface{}, 0, 1)
 
-	if restore_policy == nil {
+	if restorePolicy == nil {
 		return rp
 	}
 
@@ -278,14 +279,7 @@ func expandRestoreOrganizationPolicy(configured []interface{}) (*cloudresourcema
 		return nil, nil
 	}
 
-	restoreDefaultMap := configured[0].(map[string]interface{})
-	default_value := restoreDefaultMap["default"].(bool)
-
-	if default_value {
-		return &cloudresourcemanager.RestoreDefault{}, nil
-	}
-
-	return nil, fmt.Errorf("Invalid value for restore_policy. Expecting default = true")
+	return &cloudresourcemanager.RestoreDefault{}, nil
 }
 
 func flattenListOrganizationPolicy(policy *cloudresourcemanager.ListPolicy) []map[string]interface{} {
@@ -371,4 +365,11 @@ func canonicalOrgPolicyConstraint(constraint string) string {
 		return constraint
 	}
 	return "constraints/" + constraint
+}
+
+func validateDefaultPolicyValue(v interface{}, k string) (warnings []string, errors []error) {
+	if v != true {
+		errors = append(errors, fmt.Errorf("Invalid value for restore_policy. Expecting default = true"))
+	}
+	return
 }
